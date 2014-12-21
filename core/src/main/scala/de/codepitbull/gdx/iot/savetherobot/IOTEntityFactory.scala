@@ -33,7 +33,7 @@ object IOTEntityFactory {
     entity.addComponent(new AutoMove(entity, 50, 350, posRot))
   }
 
-  def player(entityId: Int, x: Int, y: Int, rot: Float): Entity = {
+  def player(entityId: Int, playerId:Int, x: Int, y: Int, rot: Float): Entity = {
     val texture = new Texture(Gdx.files.internal("data/player.png"))
     val sprite = new Sprite(texture)
     val rad = sprite.getWidth / 2
@@ -42,8 +42,8 @@ object IOTEntityFactory {
     entity.addComponent(posRot)
     entity.addComponent(new Visual(entity, posRot, sprite))
     entity.addComponent(new Bounds(entity, posRot, new Circle(posRot.x, posRot.y, rad)))
-    entity.addComponent(new PlayerControlled(entity, posRot))
-    val posDeathCountRot = new PositionAndRotation(entity, 20, 20, 0)
-    entity.addComponent(new DeathCounter(entity, 0, posDeathCountRot))
+    entity.addComponent(new PlayerControlled(entity, playerId, 5, posRot))
+    val posDeathCountRot = new PositionAndRotation(entity, 20, 2*playerId*20, 0)
+    entity.addComponent(new DeathCounter(entity, playerId, 5, posDeathCountRot))
   }
 }
