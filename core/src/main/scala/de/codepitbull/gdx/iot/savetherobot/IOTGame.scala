@@ -15,26 +15,27 @@ class IOTGame extends Game with EventReceiver {
   var entities: Set[Entity] = Set()
   var deathCounterComponent: Entity = null
   var counter = 0
-  val ipcon = new IPConnection
 
-  val sd4x7 = new BrickletSegmentDisplay4x7("kTU", ipcon)
-  val joy1 = new BrickletJoystick("gSq", ipcon)
-  val joy2 = new BrickletJoystick("hDp", ipcon)
+//  Use with TinkerForge joysticks and 4x7-Display
+//  val ipcon = new IPConnection
+//  val sd4x7 = new BrickletSegmentDisplay4x7("kTU", ipcon)
+//  val joy1 = new BrickletJoystick("gSq", ipcon)
+//  val joy2 = new BrickletJoystick("hDp", ipcon)
+//
+//  ipcon.connect("localhost", 4223)
+//  joy1.calibrate()
+//  joy2.calibrate()
 
   var startDelay:Float = 5
 
   val systems = List(new AutoMoveSystem(800, 480),
     new BoundsSystem,
-    new VisualSystem(sd4x7),
+    new VisualSystem,
     new KeyboardControlledSystem,
-    new TinkerForgeJoystickControlledSystem(joy1, joy2),
     new CollisionSystem(800, 480),
     new DeathSystem
   )
 
-  ipcon.connect("localhost", 4223)
-  joy1.calibrate()
-  joy2.calibrate()
 
   override def create(): Unit = {
     entities = Set(
@@ -51,7 +52,7 @@ class IOTGame extends Game with EventReceiver {
 
   override def dispose(): Unit = {
     systems.foreach(_.destroy())
-    ipcon.disconnect()
+//    ipcon.disconnect()
   }
 
   override def render(): Unit = {
